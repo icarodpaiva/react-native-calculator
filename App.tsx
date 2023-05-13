@@ -1,118 +1,59 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState } from "react"
+import { View, StyleSheet } from "react-native"
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Display } from "./src/components/Display"
+import { Button } from "./src/components/Button/Button"
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+export const App = () => {
+  const [displayValue, setDisplayValue] = useState("0")
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const addDigit = (label: string) => {
+    setDisplayValue(prev => (prev === "0" ? label : `${prev}${label}`))
+  }
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const setOperation = (opeartion: string) => {}
+
+  const clearMemory = () => {
+    setDisplayValue("0")
+  }
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={style.container}>
+      <Display displayValue={displayValue} />
+
+      <View style={style.buttons}>
+        <Button label="AC" onPress={clearMemory} buttonTriple />
+        <Button label="/" onPress={setOperation} operationButton />
+
+        <Button label="7" onPress={addDigit} />
+        <Button label="8" onPress={addDigit} />
+        <Button label="9" onPress={addDigit} />
+        <Button label="*" onPress={setOperation} operationButton />
+
+        <Button label="4" onPress={addDigit} />
+        <Button label="5" onPress={addDigit} />
+        <Button label="6" onPress={addDigit} />
+        <Button label="-" onPress={setOperation} operationButton />
+
+        <Button label="1" onPress={addDigit} />
+        <Button label="2" onPress={addDigit} />
+        <Button label="3" onPress={addDigit} />
+        <Button label="+" onPress={setOperation} operationButton />
+
+        <Button label="0" onPress={addDigit} />
+        <Button label="." onPress={addDigit} buttonDouble />
+        <Button label="=" onPress={setOperation} operationButton />
+      </View>
     </View>
-  );
+  )
 }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+const style = StyleSheet.create({
+  container: {
+    flex: 1
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
+  buttons: {
+    flexDirection: "row",
+    flexWrap: "wrap"
+  }
+})
